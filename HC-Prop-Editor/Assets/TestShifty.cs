@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using HC.Shifty;
 public class TestShifty : MonoBehaviour
 {
     public int currentMode;

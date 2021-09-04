@@ -7,9 +7,9 @@ String deviceName = "Shifty";
 int myID;
 
 /* WIFI */
-const char *ssid =  "andy";     // replace with your wifi ssid and wpa2 key
-const char *pass =  "cheng1134";
-const char *host = "192.168.3.194";
+const char *ssid =  "HapticCenter";     // replace with your wifi ssid and wpa2 key
+const char *pass =  "HapticCenter";
+const char *host = "192.168.50.82";
 int port = 26950;
 WiFiClient client;
 WiFiUDP udpClient;
@@ -24,7 +24,7 @@ struct WelcomeBack{
 };
 struct ShiftyStatus{
   int packetLength = 12;
-  int cmdID = 41;
+  int cmdID = 4;
   int functionID = 1;
   int currentMode;
 };
@@ -79,8 +79,8 @@ void ReadCommandFromServer(){
     case 2:
       InitializeUDP();
       break;
-    case 3:
-      OnPacket();
+    case 4:
+      OnPacket(command);
       break;
     case 43:
       int dir = ByteToInt(command, 4, 8);
@@ -110,29 +110,24 @@ void InitializeUDP(){
     udpClient.endPacket();
 }
 
-void OnPacket()
+void OnPacket(byte* command)
 {
-  byte functionID_bytes[4];
-  for (int i = 0; i < 4; ++i){
-    functionID_bytes[i] = client.read();
-  }
-  int functionID = ByteToInt(functionID_bytes);
-  HandleFunctions(functionID);
+  int functionID = ByteToInt(command, 4, 8);
+  HandleFunctions(functionID, command);
+  Serial.println("Function ID: " + String(functionID));
 }
 
-void HandleFunctions(int functionID)
+void HandleFunctions(int functionID, byte* command)
 {
   if(functionID == 0)
   {
+    Serial.println("Report Status");
     ReportStatus();
   }
   else if(functionID == 1)
   {
-    byte mode_bytes[4];
-    for (int i = 0; i < 4; ++i){
-      mode_bytes[i] = client.read();
-    }
-    int next_mode = ByteToInt(mode_bytes);
+    Serial.println("Set mode");
+    int next_mode = ByteToInt(command, 8, 12);
     SwitchMode(next_mode);
   }
   
@@ -197,6 +192,7 @@ void Setup_WIFI(){
   {
     delay(500);
   }
+  Serial.println("Connected to WIFI");
 }
 void Server_Connect(){
   while(!client){
