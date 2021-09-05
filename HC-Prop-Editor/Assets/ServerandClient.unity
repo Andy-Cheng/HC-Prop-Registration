@@ -131,7 +131,6 @@ GameObject:
   m_Component:
   - component: {fileID: 201561129}
   - component: {fileID: 201561130}
-  - component: {fileID: 201561131}
   m_Layer: 0
   m_Name: HC-Server
   m_TagString: Untagged
@@ -166,18 +165,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   port: 26950
---- !u!114 &201561131
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 201561128}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a107ad8dd8514fc2a81d5a8e79a00c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &450479675
 GameObject:
   m_ObjectHideFlags: 0
@@ -187,10 +174,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 450479676}
-  - component: {fileID: 450479677}
   - component: {fileID: 450479678}
   m_Layer: 0
-  m_Name: Player
+  m_Name: Test
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -210,24 +196,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &450479677
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 450479675}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 892efeb09e8c342c19b86c3b0392f901, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ip: 192.168.50.82
-  port: 26950
-  myId: 0
-  DeviceType: 1
-  DeviceName: Player1
-  RequestedDevice: Shifty
 --- !u!114 &450479678
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -418,6 +386,68 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &1025128508
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1025128510}
+  - component: {fileID: 1025128509}
+  - component: {fileID: 1025128511}
+  m_Layer: 0
+  m_Name: Util
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1025128509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1025128508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 892efeb09e8c342c19b86c3b0392f901, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ip: 192.168.50.82
+  port: 26950
+  myId: 0
+  DeviceType: 1
+  DeviceName: Player1
+  RequestedDevice: 
+--- !u!4 &1025128510
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1025128508}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1025128511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1025128508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a107ad8dd8514fc2a81d5a8e79a00c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &543450653673413177
 Transform:
   m_ObjectHideFlags: 0

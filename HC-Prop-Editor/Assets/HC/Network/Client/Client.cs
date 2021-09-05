@@ -15,9 +15,9 @@ public class Client : MonoBehaviour
     public string ip = "127.0.0.1";
     public int port = 26950;
     public int myId = 0;
-    public int DeviceType; // 0: device, 1: player
+    public int DeviceType = 1; // 0: device, 1: player
     public string DeviceName; // Tell the server the name of device or which player
-    public string RequestedDevice = "Shifty";
+    public string RequestedDevice;
     public TCP tcp;
     public UDP udp;
 

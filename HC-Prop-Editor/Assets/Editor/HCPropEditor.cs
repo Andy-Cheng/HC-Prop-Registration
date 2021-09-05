@@ -261,7 +261,7 @@ public class HCPropEditor : EditorWindow
     }
 
     void UploadDevice(){
-        string deviceAssetPath = Path.Combine(Application.dataPath, deviceName);
+        string deviceAssetPath = Path.Combine(Application.dataPath, "HC", deviceName);
         try
         {
             // Determine whether the directory exists.
@@ -286,17 +286,16 @@ public class HCPropEditor : EditorWindow
         // Save the gameobject as a prefab
         string name = deviceModel.name;
         deviceModel.name= $"{deviceName}_reference_model";
-        PrefabUtility.SaveAsPrefabAssetAndConnect(deviceModel, $"Assets/{deviceName}/{deviceName}ReferenceModel.prefab", InteractionMode.AutomatedAction);
+        PrefabUtility.SaveAsPrefabAssetAndConnect(deviceModel, $"Assets/HC/{deviceName}/{deviceName}ReferenceModel.prefab", InteractionMode.AutomatedAction);
         PrefabUtility.UnpackPrefabInstance(deviceModel, PrefabUnpackMode.OutermostRoot, InteractionMode.AutomatedAction);
         deviceModel.name = name;
         string packageName = $"{deviceName}.unitypackage";
-        AssetDatabase.ExportPackage($"Assets/{deviceName}", packageName,  ExportPackageOptions.Recurse);
-        AssetDatabase.DeleteAsset($"Assets/{deviceName}");
+        AssetDatabase.ExportPackage($"Assets/HC/{deviceName}", packageName,  ExportPackageOptions.Recurse| ExportPackageOptions.IncludeDependencies);
+        AssetDatabase.DeleteAsset($"Assets/HC/{deviceName}");
         AssetDatabase.Refresh();
 
         // Write to DB
         EditorCoroutineUtility.StartCoroutine(WriteDB(), this);
-
 
         // Upload package
         EditorCoroutineUtility.StartCoroutine(UploadPackage($"{Path.GetDirectoryName(Application.dataPath)}/{packageName}", packageName), this);
