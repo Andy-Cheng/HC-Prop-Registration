@@ -11,7 +11,7 @@ const StepOne = ({nextStep})=>{
     }
 
     return         <div className="block">
-    <div style={{ backgroundImage: `url(${teaser})`, height: "344px", backgroundRepeat: "no-repeat", backgroundSize: "cover", opacity: ".7" }} />
+    <div style={{ backgroundImage: `url(${teaser})`, width: "100%", minHeight: "360px", backgroundRepeat: "no-repeat", backgroundSize: "cover", opacity: ".7" }} />
     <Title style={{ color: "#e85d04"}}>HaptiCenter Developer Platform</Title>
     <Title level={5} style={{fontStyle: "italic"}}>Explore and integrate haptic devices to your game</Title>
     <Title level={4} style={{ paddingTop: "70px" }}>Download and install the HC base package</Title>
