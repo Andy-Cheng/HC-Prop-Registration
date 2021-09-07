@@ -36,10 +36,19 @@ public class Function{
 
 }
 
+
+public class WebRequestCert : UnityEngine.Networking.CertificateHandler
+{
+    protected override bool ValidateCertificate(byte[] certificateData)
+    {
+        return true;
+    }
+}
+
 public class HCPropEditor : EditorWindow
     
     {
-    string serverURL = "http://localhost:8080";
+    string serverURL = "https://140.112.179.142";
     public string deviceName;
     public string deviceDescription;
     string[] commuOptions = new string[] {"Network", "Bluetooth"};
@@ -317,6 +326,7 @@ public class HCPropEditor : EditorWindow
 
         using (var w = UnityWebRequest.Post($"{serverURL}/device", form))
         {
+            w.certificateHandler = new WebRequestCert();
             yield return w.SendWebRequest();
             if (w.isNetworkError || w.isHttpError) {
                 Debug.Log(w.error);
@@ -335,6 +345,7 @@ public class HCPropEditor : EditorWindow
         form.AddBinaryData("package", packageBytes, fileName);
         using (var w = UnityWebRequest.Post($"{serverURL}/package", form))
         {
+            w.certificateHandler = new WebRequestCert();
             yield return w.SendWebRequest();
             if (w.isNetworkError || w.isHttpError) {
                 Debug.Log(w.error);

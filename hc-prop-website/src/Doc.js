@@ -1,8 +1,7 @@
 import axios from "axios";
-import fileDownload from 'js-file-download';
 import { useState, useEffect } from "react";
-import { Typography, Table, Button, Checkbox, Tag, Collapse } from "antd";
-import { RightOutlined } from '@ant-design/icons';
+import { Typography, Table, Checkbox, Tag, Collapse } from "antd";
+import { useLocation } from "react-router-dom";
 
 const { Title, Text, Paragraph } = Typography;
 const { Panel } = Collapse;
@@ -16,7 +15,6 @@ const transformMessage = {
     functionDescription: "Recieve the Transform of the tracker mounted on the device.",
     parameters: [{name: "trackerID", type: 1, description: "The ID of the tracker mounted on the device."}, {name: "rotation", type: 7, description: "A Quaternion that stores the rotation of tracker's the Transform in world space."}, {name: "position", type: 6, description: "The world space position of the tracker's Transform."}],
 };
-
 
 const Parameters = ({paramInfo})=>{
     const dataSource = paramInfo.map((parameter, index)=>{
@@ -88,14 +86,16 @@ const Function = ({functionInfo, type})=>{
 
 
 
-const Device = ({handleSelection, deviceInfo})=>{
+const Device = ({handleSelection, deviceInfo, isDOc})=>{
     const OnChangeCheckBox = (e)=>{
         handleSelection(e.target.checked, deviceInfo.name);
     }
 
     return <>
         <Title style={{display: "inline-block"}} level={2}>{deviceInfo.name}</Title>
-        <Text strong style={{display: "inline-block", marginLeft: "32px"}}>select this device</Text> <Checkbox onChange={OnChangeCheckBox}/>
+        {
+            !isDOc && <><Text strong style={{display: "inline-block", marginLeft: "32px"}}>select this device</Text> <Checkbox onChange={OnChangeCheckBox}/></>
+        }
         <br/>
         <Title style={{display: "inline-block"}} level={5}>Communication Method: </Title> 
         <Tag color="orange" style={{marginLeft: "8px"}}>{CommuOptions[deviceInfo.commuMethod]}</Tag>
@@ -125,22 +125,15 @@ const Device = ({handleSelection, deviceInfo})=>{
     </>
 }
 
-const downloadPackage = async(deviceName)=>{
-    const fileName = `${deviceName}.unitypackage`;
-    try {
-        const response = await axios.get(`http://localhost:8080/packages/${fileName}`, {responseType: "blob"});
-        const { data } = response;
-        fileDownload(data, fileName);
-      } catch (error) {
-        console.error(error);
-      }
-};
 
 
-const Doc = ({nextStep})=>{
+
+const Doc = ({handleSelection})=>{
+    const location = useLocation();
+    const isDoc = location.pathname === "/doc";
     const getDevices = async ()=>{
         try {
-            const response = await axios.get("http://localhost:8080/devices");
+            const response = await axios.get("https://140.112.179.142/devices");
             const { data } = response;
             setDevices(data);
           } catch (error) {
@@ -149,46 +142,22 @@ const Doc = ({nextStep})=>{
     };
 
     const [devices, setDevices] = useState([]);
-    const [selectedDevices, setSelectedDevices] = useState([]);
-    const handleSelection = (checked, deviceName)=>{
-        const index = selectedDevices.findIndex((name)=>name === deviceName);
-        if(checked)
-        {
-            setSelectedDevices([...selectedDevices, deviceName]);
-        }
-        else
-        {
-            let newDevices = [...selectedDevices];
-            newDevices.splice(index, 1);
-            setSelectedDevices(newDevices);
-        }
-    }
+
 
     useEffect(()=>{
         getDevices();
     }, []);
 
-    const onNextStep = ()=>{
-        selectedDevices.forEach(deviceName => {
-            downloadPackage(deviceName);
-        });
-        nextStep();
-    }
+
 
     return <>
 
-    <div className="doc">
+    <div className="doc" style={isDoc? {}:{height: "calc(100vh - 232px)", overflowY: "scroll"}}>
         {
-            devices.map((deviceInfo, index)=><Device handleSelection={handleSelection} deviceInfo={deviceInfo} key={index}/>)
+            devices.map((deviceInfo, index)=><Device handleSelection={handleSelection} deviceInfo={deviceInfo} isDOc={isDoc} key={index}/>)
         }
     </div>
-    <div style={{ position: "absolute", top: "63px", backgroundColor: "#fff", width: "100%", minHeight: "40px", padding: "16px 48px" }}>
-            <Text style={{ display: "inline-block" }} strong>Selected Devices: </Text>
-            {
-                selectedDevices.map((name, index)=><Tag style={{marginLeft: "8px"}} key={index}>{name}</Tag>)
-            }
-            <Button onClick={onNextStep} style={{position: "absolute", right: "66px"}}  size="small" type="primary" icon={<RightOutlined/>}>Confirm Selection</Button>
-        </div>
+
     </>;
 };
 

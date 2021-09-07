@@ -20,7 +20,5 @@
 
 .doc{
   position: relative;
-  height: calc(100vh - 232px);
   padding: 64px 48px;
-  overflow-y: scroll;
 }
